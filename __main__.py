@@ -13,7 +13,31 @@ from game.services.video_service import VideoService
 from game.shared.color import Color
 from game.shared.point import Point
 
+# ======= Colors ======= #
+WHITE = Color(183,183,183)
+GRAY = Color(142,142,142)
+BLUE = Color(0,0,255)
+RED = Color(255,0,0)
+GREEN = Color(0,255,0)
+YELLOW = Color(255,255,0)
+#     (Just for fun)     #
+DIAMOND = Color(0,238,238)
+EMERALD = Color(0,201,87)
+RUBY = Color(220,20,60)
+SAPPHIRE = Color(30,144,255)
+TOPAZ = Color(255,20,147)
+GARNET = Color (154,50,205)
+GOLD = Color(255,215,0)
+SILVER = Color(187,255,255)
+BRONZE = Color(255,128,0)
+GEM_COLOR_LIST = [DIAMOND, EMERALD, RUBY, SAPPHIRE, TOPAZ, GARNET, GOLD, SILVER, BRONZE]
+STONE = Color(110,123,139)
+SLATE = Color(139,115,85)
+GRANITE = Color(180,205,205)
+SANDSTONE = Color(139,139,122)
+ROCK_COLOR_LIST = [STONE, SLATE, GRANITE, SANDSTONE]
 
+# ==== Game Options ==== #
 FRAME_RATE = 12
 MAX_X = 900
 MAX_Y = 600
@@ -22,7 +46,6 @@ FONT_SIZE = 15
 COLS = 60
 ROWS = 40
 CAPTION = "Greed Game"
-WHITE = Color(255, 255, 255)
 DEFAULT_ARTIFACTS = 40
 GEMSORROCKS = ['*','O']
 
@@ -53,7 +76,6 @@ def main():
     cast.add_actor("robots", robot)
     
     # create the artifacts
-
     for n in range(DEFAULT_ARTIFACTS):
         text = random.choice(GEMSORROCKS)
 
@@ -61,11 +83,15 @@ def main():
         y = random.randint(1, ROWS - 1)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
-
-        r = random.randint(50, 255)
-        g = random.randint(60, 255)
-        b = random.randint(70, 255)
-        color = Color(r, g, b)
+        if text == '*':                     # <---  Colors for Gems (rainbow)
+            color = random.choice(GEM_COLOR_LIST)
+        elif text == "O":                   # <---  Colors for Rocks (gray)
+            color = random.choice(ROCK_COLOR_LIST)
+        else:                               # <--- Colors for anything else (random)
+            r = random.randint(50, 255)
+            g = random.randint(60, 255)
+            b = random.randint(70, 255)
+            color = Color(r, g, b)
         
         artifact = Artifact()
         artifact.set_text(text)
