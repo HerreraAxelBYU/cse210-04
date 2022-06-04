@@ -17,7 +17,9 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
-        
+        # Set the starting score to 0.
+        self._score = 0
+
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
 
@@ -48,25 +50,35 @@ class Director:
             cast (Cast): The cast of actors.
         """
 
-        self._score = 50
-
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
 
-        
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
         
-        for artifact in artifacts:
-            banner.set_text(f'SCORE: {self._score}')
-            if robot.get_position().equals(artifact.get_position()):
-                    artifact.set_text("")
-                    self._score -= 1
-                    
+        banner.set_text(f'SCORE: {self._score}')
 
-                
+        # When in collision with an artifact...
+        collision = "No"
+        for artifact in artifacts:
+            if robot.get_position().equals(artifact.get_position()):
+                    collision = "Yes"
+                    artifact.set_text("")
+                    if artifact.is_gem:
+                        print("TEST:    Gem!")
+                        self._score += 1
+                    elif artifact.is_rock:
+                        print("TEST:    Rock!")
+                        self._score -= 1
+                    else:
+                        print("TEST:    Something?")
+        
+        # Need to somehow delete the same position artifact -
+        # so player cant stand in the blank spot to get infinite points.
+        
+
                  
         
     def _do_outputs(self, cast):

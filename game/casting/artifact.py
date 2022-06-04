@@ -29,3 +29,16 @@ class Artifact(Actor):
             message (string): The given message.
         """
         self._message = message
+
+    def set_definition(self, definition):
+        """Defines the artifact as a Gem or Rock
+        """
+        if definition == "Gem":
+            self.is_gem = True
+            self.is_rock = False
+        elif definition == "Rock":
+            self.is_gem = False
+            self.is_rock = True
+        else:
+            self.is_gem = False
+            self.is_rock = False
