@@ -55,11 +55,11 @@ def main():
     # create the cast
     cast = Cast()
     
-    # create the banner
+    # create the banner (score)
     banner = Actor()
     banner.set_text("")
     banner.set_font_size(FONT_SIZE)
-    banner.set_color(WHITE)
+    banner.set_color(YELLOW)
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
     
@@ -83,21 +83,25 @@ def main():
         y = random.randint(1, ROWS - 1)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
-        if text == '*':                     # <---  Colors for Gems (rainbow)
+        if text == "*": # If Gem...
             color = random.choice(GEM_COLOR_LIST)
-        elif text == "O":                   # <---  Colors for Rocks (gray)
+            definition = "Gem"
+        elif text == "O": # If Rock...
             color = random.choice(ROCK_COLOR_LIST)
-        else:                               # <--- Colors for anything else (random)
+            definition = "Rock"
+        else:    
             r = random.randint(50, 255)
             g = random.randint(60, 255)
             b = random.randint(70, 255)
             color = Color(r, g, b)
+            definition = "???"
         
         artifact = Artifact()
         artifact.set_text(text)
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
+        artifact.set_definition(definition)
         cast.add_actor("artifacts", artifact)
     
     # start the game
