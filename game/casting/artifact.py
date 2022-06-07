@@ -13,7 +13,10 @@ class Artifact(Actor):
     def __init__(self):
         super().__init__()
         self._message = ""
-        
+        self._collision_score = 0
+        self._is_gem = False
+        self._is_rock = False
+
     def get_message(self):
         """Gets the artifact's message.
         
@@ -30,15 +33,25 @@ class Artifact(Actor):
         """
         self._message = message
 
-    def set_definition(self, definition):
-        """Defines the artifact as a Gem or Rock
+    def get_position(self):
+        """Updates the objects position to its current one.
         """
-        if definition == "Gem":
-            self.is_gem = True
-            self.is_rock = False
-        elif definition == "Rock":
-            self.is_gem = False
-            self.is_rock = True
-        else:
-            self.is_gem = False
-            self.is_rock = False
+        return self._position
+
+class Gem(Artifact):
+    """A child class of the Artifact, inherits all Artifact and Actor attributes.
+    When the player touches a Gem, their 'self._score' adds 1.
+    """
+    def __init__(self):
+        super().__init__()
+        self._is_gem = True
+        self._collision_score = 1
+
+class Rock(Artifact):
+    """A child class of the Artifact, inherits all Artifact and Actor attributes.
+    When the player touches a Rock, their 'self._score' subtracts 1.
+    """
+    def __init__(self):
+        super().__init__()
+        self._is_rock = True
+        self._collision_score = -1

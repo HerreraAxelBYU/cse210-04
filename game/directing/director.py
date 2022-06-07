@@ -19,6 +19,28 @@ class Director:
         self._video_service = video_service
         # Set the starting score to 0.
         self._score = 0
+        
+    
+    def _help_test(self, cast):
+        """Use to view the list of cast objects.
+        """
+        # (TEST) Temporary method, just used to check on the amount of objects.
+        all_cast = cast.get_all_actors()
+        print("--------------------")
+        print("Objects in game:\n")
+        print(f"All Actors: {all_cast}")
+        print("--------------------")
+        banner = cast.get_first_actor("banners")
+        tracker = cast.get_first_actor("tracker")
+        notification = cast.get_first_actor("notification")
+        robot = cast.get_first_actor("robots")
+        artifacts = cast.get_actors("artifacts")
+        gems = cast.get_actors("gems")
+        rocks = cast.get_actors("rocks")
+        print(f"Player: {robot}, Banner: {banner}, Tracker: {tracker}, Notify: {notification}")
+        print(f"Gems: [{gems}] \n Rocks: [{rocks}]")
+        print(f"All Artifacts: [{artifacts}]")
+        print("---------------------")
 
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -26,6 +48,8 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
+        self._help_test(cast)
+
         self._video_service.open_window()
         while self._video_service.is_window_open():
             self._get_inputs(cast)
@@ -51,30 +75,37 @@ class Director:
         """
 
         banner = cast.get_first_actor("banners")
+        tracker = cast.get_first_actor("tracker")
+        notification = cast.get_first_actor("notification")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
+        gems = cast.get_actors("gems")
+        rocks = cast.get_actors("rocks")
 
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
-        
-        banner.set_text(f'SCORE: {self._score}')
 
-        # When in collision with an artifact...
-        collision = "No"
-        for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                    collision = "Yes"
-                    artifact.set_text("")
-                    if artifact.is_gem:
-                        print("TEST:    Gem!")
-                        self._score += 1
-                    elif artifact.is_rock:
-                        print("TEST:    Rock!")
-                        self._score -= 1
-                    else:
-                        print("TEST:    Something?")
-        
+        # (Test) Get the robots location to print in the tracker.
+        robot_position = robot.get_position()
+        rob_x_pos = robot_position.get_x()
+        rob_y_pos = robot_position.get_y()
+
+        banner.set_text(f'SCORE: {self._score}')
+        tracker.set_text(f'Position: [{rob_x_pos}, {rob_y_pos}]')
+        notification.set_text(f'Collision: ')
+
+        # Check if in collision with gem.
+        for gem in gems:
+            if robot.get_position().equals(gem.get_position()):
+                notification.set_text(f'Collision: Gem')
+                self._score += 1
+        # Check if in collision with rock.
+        for rock in rocks:
+            if robot.get_position().equals(rock.get_position()):
+                notification.set_text(f'Collision: Rock')
+                self._score -= 1
+                
         # Need to somehow delete the same position artifact -
         # so player cant stand in the blank spot to get infinite points.
         

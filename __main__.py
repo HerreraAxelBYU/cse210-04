@@ -2,7 +2,7 @@ import os
 import random
 
 from game.casting.actor import Actor
-from game.casting.artifact import Artifact
+from game.casting.artifact import Artifact, Gem, Rock
 from game.casting.cast import Cast
 
 from game.directing.director import Director
@@ -36,6 +36,11 @@ SLATE = Color(139,115,85)
 GRANITE = Color(180,205,205)
 SANDSTONE = Color(139,139,122)
 ROCK_COLOR_LIST = [STONE, SLATE, GRANITE, SANDSTONE]
+#      Random Colors     #
+rand_r = random.randint(50, 255)
+rand_g = random.randint(60, 255)
+rand_b = random.randint(70, 255)
+RANDOM_COLOR = Color(rand_r, rand_g, rand_b)
 
 # ==== Game Options ==== #
 FRAME_RATE = 12
@@ -46,7 +51,9 @@ FONT_SIZE = 15
 COLS = 60
 ROWS = 40
 CAPTION = "Greed Game"
-DEFAULT_ARTIFACTS = 40
+DEFAULT_ARTIFACTS = 20
+DEFAULT_GEMS = 10
+DEFAULT_ROCKS = 10
 GEMSORROCKS = ['*','O']
 
 
@@ -63,6 +70,22 @@ def main():
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
     
+    # (TEST) create the tracker, which displays the position of the robot.
+    tracker = Actor()
+    tracker.set_text("")
+    tracker.set_font_size(FONT_SIZE)
+    tracker.set_color(GRAY)
+    tracker.set_position(Point(400, 0))
+    cast.add_actor("tracker", tracker)
+
+    # (TEST) create a notification, which displays the positon of a collison.
+    notification = Actor()
+    notification.set_text("")
+    notification.set_font_size(FONT_SIZE)
+    notification.set_color(GRAY)
+    notification.set_position(Point(750, 0))
+    cast.add_actor("notification", notification)
+
     # create the robot
     x = int(MAX_X / 2)
     y = int(MAX_Y / 2)
@@ -75,41 +98,52 @@ def main():
     robot.set_position(position)
     cast.add_actor("robots", robot)
     
-    # create the artifacts
-    for n in range(DEFAULT_ARTIFACTS):
-        text = random.choice(GEMSORROCKS)
-
+    # create Gems to be scattered on the screen.
+    for n in range(DEFAULT_GEMS):
+        # place Gems in random positions.
         x = random.randint(1, COLS - 1)
         y = random.randint(1, ROWS - 1)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
-        if text == "*": # If Gem...
-            color = random.choice(GEM_COLOR_LIST)
-            definition = "Gem"
-        elif text == "O": # If Rock...
-            color = random.choice(ROCK_COLOR_LIST)
-            definition = "Rock"
-        else:    
-            r = random.randint(50, 255)
-            g = random.randint(60, 255)
-            b = random.randint(70, 255)
-            color = Color(r, g, b)
-            definition = "???"
-        
-        artifact = Artifact()
-        artifact.set_text(text)
-        artifact.set_font_size(FONT_SIZE)
-        artifact.set_color(color)
-        artifact.set_position(position)
-        artifact.set_definition(definition)
-        cast.add_actor("artifacts", artifact)
+        # get Gem colors:
+        color = random.choice(GEM_COLOR_LIST)
+        # set Gem text:
+        text = "*"
+        # set up a Gem object.
+        gem = Gem()
+        gem.set_text(text)
+        gem.set_font_size(FONT_SIZE)
+        gem.set_color(color)
+        gem.set_position(position)
+        cast.add_actor("gems", gem)
+
+    # create Rocks to be scattered on the screen.
+    for n in range(DEFAULT_ROCKS):
+        # place Rocks in random positions.
+        x = random.randint(1, COLS - 1)
+        y = random.randint(1, ROWS - 1)
+        position = Point(x, y)
+        position = position.scale(CELL_SIZE)
+        # get Rock colors:
+        color = random.choice(ROCK_COLOR_LIST)
+        # set Rock text:
+        text = "O"
+        # set up a Gem object.
+        rock = Rock()
+        rock.set_text(text)
+        rock.set_font_size(FONT_SIZE)
+        rock.set_color(color)
+        rock.set_position(position)
+        cast.add_actor("rocks", rock)
     
-    # start the game
+    # Start the game
     keyboard_service = KeyboardService(CELL_SIZE)
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
     director = Director(keyboard_service, video_service)
     director.start_game(cast)
 
+    # Temporary, only for testing.
+    director._help_test(cast)
 
 if __name__ == "__main__":
     main()
