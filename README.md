@@ -41,7 +41,7 @@ root                    (project root folder)
 
 ## Authors
 --- Herrera Axel
---- Jordan Eldredge
+--- Jordan Eldredge, jordanmeldredge@gmail.com
 --- Jonathan Troche
 --- Igor
 --- Promise
