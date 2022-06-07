@@ -56,7 +56,6 @@ DEFAULT_GEMS = 10
 DEFAULT_ROCKS = 10
 GEMSORROCKS = ['*','O']
 
-
 def main():
     
     # create the cast

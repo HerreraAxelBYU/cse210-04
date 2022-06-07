@@ -38,6 +38,7 @@ class Artifact(Actor):
         """
         return self._position
 
+
 class Gem(Artifact):
     """A child class of the Artifact, inherits all Artifact and Actor attributes.
     When the player touches a Gem, their 'self._score' adds 1.

@@ -105,12 +105,10 @@ class Director:
             if robot.get_position().equals(rock.get_position()):
                 notification.set_text(f'Collision: Rock')
                 self._score -= 1
-                
+
         # Need to somehow delete the same position artifact -
         # so player cant stand in the blank spot to get infinite points.
         
-
-                 
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
