@@ -72,3 +72,4 @@ class Rock(Artifact):
         self._is_rock = True
         self._collision_score = -1
         
+        
