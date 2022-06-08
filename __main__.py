@@ -51,10 +51,8 @@ FONT_SIZE = 15
 COLS = 60
 ROWS = 40
 CAPTION = "Greed Game"
-DEFAULT_ARTIFACTS = 20
-DEFAULT_GEMS = 10
-DEFAULT_ROCKS = 10
-GEMSORROCKS = ['*','O']
+DEFAULT_GEMS = 20
+DEFAULT_ROCKS = 20
 
 def main():
     
@@ -82,7 +80,7 @@ def main():
     notification.set_text("")
     notification.set_font_size(FONT_SIZE)
     notification.set_color(GRAY)
-    notification.set_position(Point(750, 0))
+    notification.set_position(Point(800, 0))
     cast.add_actor("notification", notification)
 
     # create the robot
@@ -146,3 +144,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+    
