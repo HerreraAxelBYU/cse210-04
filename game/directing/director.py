@@ -99,17 +99,17 @@ class Director:
         for gem in gems:
             if robot.get_position().equals(gem.get_position()):
                 notification.set_text(f'Collision: Gem')
-                self._score += 1
+                self._score += gem._collision_score
+                # Update the gem object to 'is_used'.
+                gem.is_used("G")
         # Check if in collision with rock.
         for rock in rocks:
             if robot.get_position().equals(rock.get_position()):
                 notification.set_text(f'Collision: Rock')
-                self._score -= 1
+                self._score += rock._collision_score
+                # Update the rock object to 'is_used'. 
+                rock.is_used("R")
 
-        # Need to somehow delete the same position artifact -
-        # so player cant stand in the blank spot to get infinite points.
-        
-        
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
         
@@ -120,3 +120,4 @@ class Director:
         actors = cast.get_all_actors()
         self._video_service.draw_actors(actors)
         self._video_service.flush_buffer()
+        
