@@ -3,12 +3,14 @@ from game.casting.actor import Actor
 
 class Artifact(Actor):
     """
-    An item of cultural or historical interest. 
-    
-    The responsibility of an Artifact is to provide a message about itself.
+    The parent class a Gem or Rock classes. 
 
     Attributes:
-        _message (string): A short description about the artifact.
+        _text (string):         A one letter character which visually identifies the object.
+        _collision_score (int): The amount of points gained from touching the object.
+        _is_gem (boolean):      Determines if the object is a Gem. (may not be necessary)
+        _is_rock (boolean):     Determines if the object is a Rock. (may not be necessary)
+        _is_used (boolean):     Resets the 'collision_score' to 0 and changes the object's '_text', so players can't get score from the same object.
     """
     def __init__(self):
         super().__init__()
@@ -19,7 +21,7 @@ class Artifact(Actor):
         self._is_used = False
 
     def get_text(self):
-        """Gets the artifact's text.
+        """Gets the objects's text.
         
         Returns:
             string: The message.
