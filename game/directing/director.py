@@ -1,3 +1,5 @@
+from game.shared.point import Point
+
 class Director:
     """A person who directs the game. 
     
@@ -95,20 +97,50 @@ class Director:
         tracker.set_text(f'Position: [{rob_x_pos}, {rob_y_pos}]')
         notification.set_text(f'Collision: ')
 
+    # get position of gems of each gem, after we are give to the gems a new position
+
+        MAX_X = 900
+        MAX_Y = 600
+
+        for gem in gems:
+            gem_position = gem.get_position()
+            gem_x = gem_position.get_x()
+            gem_y = gem_position.get_y()
+            gem_y += 5
+            gem_new = Point(gem_x, gem_y)
+            gem.set_position(gem_new)
+            if gem_y >= MAX_Y:
+                gem_reset = Point(gem_x, 0)
+                gem.set_position(gem_reset)
+
+        #get position of rock of each rock, after we are give to the rock a new position
+
+        for rock in rocks:
+            rock_position = rock.get_position()
+            rock_x = rock_position.get_x()
+            rock_y = rock_position.get_y()
+            rock_y += 5
+            rock_new = Point(rock_x, rock_y)
+            rock.set_position(rock_new)
+            if rock_y >= MAX_Y:
+                rock_reset = Point(rock_x, 0)
+                rock.set_position(rock_reset)
+
+
         # Check if in collision with gem.
         for gem in gems:
             if robot.get_position().equals(gem.get_position()):
                 notification.set_text(f'Collision: Gem')
                 self._score += gem._collision_score
                 # Update the gem object to 'is_used'.
-                gem.is_used("G")
+                gem.is_used(" ")
         # Check if in collision with rock.
         for rock in rocks:
             if robot.get_position().equals(rock.get_position()):
                 notification.set_text(f'Collision: Rock')
                 self._score += rock._collision_score
                 # Update the rock object to 'is_used'. 
-                rock.is_used("R")
+                rock.is_used(" ")
 
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
