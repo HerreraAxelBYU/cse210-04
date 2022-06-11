@@ -139,9 +139,6 @@ def main():
     director = Director(keyboard_service, video_service)
     director.start_game(cast)
 
-    # Temporary, only for testing.
-    director._help_test(cast)
-
 if __name__ == "__main__":
     main()
     
